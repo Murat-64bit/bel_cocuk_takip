@@ -52,7 +52,7 @@ class _MainLayoutState extends State<MainLayout> {
         backgroundColor: secondaryColor,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: _page == 0 ? redColor : primaryColor,), label: '', backgroundColor: primaryColor),
+              icon: Icon(Icons.home, color: _page == 0 ? orangeColor : primaryColor,), label: '', backgroundColor: primaryColor),
           BottomNavigationBarItem(
               icon: Icon(Icons.history, color: _page == 1 ? orangeColor : primaryColor,),
               label: '',
