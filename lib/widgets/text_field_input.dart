@@ -5,7 +5,8 @@ class TextFieldInput extends StatelessWidget {
   final bool IsPass;
   final Icon icon;
   final TextInputType textInputType;
-  const TextFieldInput({Key? key,required this.name, required this.icon, required this.textInputType, required this.IsPass}) : super(key: key);
+  final TextEditingController textEditingController;
+  const TextFieldInput({Key? key,required this.name, required this.icon, required this.textInputType, required this.IsPass, required this.textEditingController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class TextFieldInput extends StatelessWidget {
       ),
       keyboardType: textInputType,
       obscureText: IsPass,
+      controller: textEditingController,
     );
   }
 }

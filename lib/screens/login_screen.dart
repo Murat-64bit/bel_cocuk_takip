@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:bel_cocuk_takip/utils/colors.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
@@ -12,7 +11,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
-        title: Text("Giriş Ekranı"),
+        title: const Text("Giriş Ekranı"),
         backgroundColor: secondaryColor,
         centerTitle: true,
       ),
@@ -25,29 +24,29 @@ class LoginScreen extends StatelessWidget {
             children: [
               Container(
                 height: 230,
-                child: Image(
+                child: const Image(
                   image: AssetImage("assets/images/gebze_logo1.png"),
                 ),
               ),
-              Center(child: Text("Lütfen kayıt bilgilerinizi giriniz.")),
-              Divider(),
+              const Center(child: Text("Lütfen kayıt bilgilerinizi giriniz.")),
+              const Divider(),
               Column(
-                children: [
-                  TextFieldInput(
-                    name: "Email Adresiniz",
-                    icon: Icon(Icons.email),
-                    textInputType: TextInputType.emailAddress,
-                    IsPass: false,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFieldInput(
-                    name: "Şifreniz",
-                    icon: Icon(Icons.lock),
-                    textInputType: TextInputType.visiblePassword,
-                    IsPass: true,
-                  ),
+                children: const [
+                  // TextFieldInput(
+                  //   name: "Email Adresiniz",
+                  //   icon: Icon(Icons.email),
+                  //   textInputType: TextInputType.emailAddress,
+                  //   IsPass: false,
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // TextFieldInput(
+                  //   name: "Şifreniz",
+                  //   icon: Icon(Icons.lock),
+                  //   textInputType: TextInputType.visiblePassword,
+                  //   IsPass: true,
+                  // ),
                   SizedBox(
                     height: 10,
                   ),
@@ -61,8 +60,8 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Center(child: Text("Hesabınız yok mu?")),
-                    SizedBox(
+                    const Center(child: Text("Hesabınız yok mu?")),
+                    const SizedBox(
                       height: 10,
                     ),
                     ElevatedButton(
@@ -73,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(0)),
                         ),
                         onPressed: () {},
-                        child: Text("Giriş Yap!")),
+                        child: const Text("Giriş Yap!")),
                   ],
                 ),
               ),

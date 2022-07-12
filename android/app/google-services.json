@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "859953910578",
+    "project_id": "bel-cocuk-takip",
+    "storage_bucket": "bel-cocuk-takip.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859953910578:android:efa37fd73bf2139d8ebd2b",
+        "android_client_info": {
+          "package_name": "com.example.bel_cocuk_takip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859953910578-dlnpfoo0ea7tvbcj2uunjkvnuq53lbbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrPd_ASk8l2qILrmFBOWt9nuqLhK8FIZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859953910578-dlnpfoo0ea7tvbcj2uunjkvnuq53lbbd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

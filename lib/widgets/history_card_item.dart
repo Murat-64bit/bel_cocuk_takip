@@ -25,12 +25,12 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.green,
                           ),
-                          Text(" 14:35"),
+                          const Text(" 14:35"),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 15),
+                      margin: const EdgeInsets.only(left: 15),
                       child: Row(
                         children: [
                           Container(
@@ -38,12 +38,12 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.red,
                           ),
-                          Text(" 14:45"),
+                          const Text(" 14:45"),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 15),
+                      margin: const EdgeInsets.only(left: 15),
                       child: Row(
                         children: [
                           Container(
@@ -51,12 +51,12 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.purple,
                           ),
-                          Text(" 00:15"),
+                          const Text(" 00:15"),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 15),
+                      margin: const EdgeInsets.only(left: 15),
                       child: Row(
                         children: [
                           Container(
@@ -64,7 +64,7 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.orange,
                           ),
-                          Text(" 7834587"),
+                          const Text(" 7834587"),
                         ],
                       ),
                     ),

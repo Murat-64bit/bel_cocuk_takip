@@ -14,34 +14,35 @@ class AccInfoScreenState extends State<AccInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Hesap Bilgilerim"),
+          title: const Text("Hesap Bilgilerim"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              TextFieldInput(
-                  name: "E-Posta Adresiniz",
-                  icon: Icon(Icons.mail),
-                  textInputType: TextInputType.emailAddress,
-                  IsPass: false),
-              SizedBox(
-                height: 10,
-              ),
-              TextFieldInput(
-                  name: "Veli Telefon Numarası",
-                  icon: Icon(Icons.phone),
-                  textInputType: TextInputType.phone,
-                  IsPass: false),
-              SizedBox(
-                height: 10,
-              ),
-              TextFieldInput(
-                  name: "Şifreniz",
-                  icon: Icon(Icons.lock),
-                  textInputType: TextInputType.visiblePassword,
-                  IsPass: true),
-              SizedBox(
+              // 
+              // const TextFieldInput(
+              //     name: "E-Posta Adresiniz",
+              //     icon: Icon(Icons.mail),
+              //     textInputType: TextInputType.emailAddress,
+              //     IsPass: false),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // const TextFieldInput(
+              //     name: "Veli Telefon Numarası",
+              //     icon: Icon(Icons.phone),
+              //     textInputType: TextInputType.phone,
+              //     IsPass: false),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // const TextFieldInput(
+              //     name: "Şifreniz",
+              //     icon: const Icon(Icons.lock),
+              //     textInputType: TextInputType.visiblePassword,
+              //     IsPass: true),
+              const SizedBox(
                 height: 10,
               ),
               ElevatedButton(
@@ -52,7 +53,7 @@ class AccInfoScreenState extends State<AccInfoScreen> {
                         borderRadius: BorderRadius.circular(0)),
                   ),
                   onPressed: () {},
-                  child: Text("Kaydet")),
+                  child: const Text("Kaydet")),
             ],
           ),
         ));
