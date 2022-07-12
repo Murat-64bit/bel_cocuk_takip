@@ -1,4 +1,5 @@
 import 'package:bel_cocuk_takip/responsive/main_layout.dart';
+import 'package:bel_cocuk_takip/screens/login_screen.dart';
 import 'package:bel_cocuk_takip/utils/colors.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +31,13 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
-    
     String res = await AuthMethods().signUpUser(
       email: _emailController.text,
       password: _passwordController.text,
       name: _nameController.text,
       parentPhone: _parentPhoneController.text,
     );
-  
+
     if (res != 'succes') {
       showSnackBar(res, context);
     } else {
@@ -47,6 +47,11 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       );
     }
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: ((context) => const LoginScreen())));
   }
 
   @override
@@ -115,7 +120,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("Hesabınız zaten var mı?"),
+                  Center(
+                      child: InkWell(
+                          onTap: navigateToLogin,
+                          child: const Text("Hesabınız var mı?"))),
                   const SizedBox(
                     height: 10,
                   ),

@@ -1,10 +1,51 @@
-
+import 'package:bel_cocuk_takip/responsive/main_layout.dart';
+import 'package:bel_cocuk_takip/screens/signup_screen.dart';
 import 'package:bel_cocuk_takip/utils/colors.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../resources/auth_methods.dart';
+import '../utils/utils.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
+  void loginUser() async {
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+
+    if (res != 'success') {
+      showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: ((context) => MainLayout()),
+        ),
+      );
+    }
+  }
+
+  void navigateToSignup() {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: ((context) => const SignupScreen())));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +72,28 @@ class LoginScreen extends StatelessWidget {
               const Center(child: Text("Lütfen kayıt bilgilerinizi giriniz.")),
               const Divider(),
               Column(
-                children: const [
-                  // TextFieldInput(
-                  //   name: "Email Adresiniz",
-                  //   icon: Icon(Icons.email),
-                  //   textInputType: TextInputType.emailAddress,
-                  //   IsPass: false,
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // TextFieldInput(
-                  //   name: "Şifreniz",
-                  //   icon: Icon(Icons.lock),
-                  //   textInputType: TextInputType.visiblePassword,
-                  //   IsPass: true,
-                  // ),
-                  SizedBox(
+                children: [
+                  TextFieldInput(
+                    name: "Email Adresiniz",
+                    icon: const Icon(Icons.email),
+                    textInputType: TextInputType.emailAddress,
+                    IsPass: false,
+                    textEditingController: _emailController,
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
+                  TextFieldInput(
+                    name: "Şifreniz",
+                    icon: const Icon(Icons.lock),
+                    textInputType: TextInputType.visiblePassword,
+                    IsPass: true,
+                    textEditingController: _passwordController,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                 ],
@@ -60,7 +103,10 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Center(child: Text("Hesabınız yok mu?")),
+                    Center(
+                        child: InkWell(
+                            onTap: navigateToSignup,
+                            child: const Text("Hesabınız yok mu?"))),
                     const SizedBox(
                       height: 10,
                     ),
@@ -71,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(0)),
                         ),
-                        onPressed: () {},
+                        onPressed: loginUser,
                         child: const Text("Giriş Yap!")),
                   ],
                 ),

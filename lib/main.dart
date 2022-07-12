@@ -1,4 +1,5 @@
 import 'package:bel_cocuk_takip/responsive/main_layout.dart';
+import 'package:bel_cocuk_takip/screens/login_screen.dart';
 import 'package:bel_cocuk_takip/screens/signup_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Montserrat', primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: SignupScreen(),
+      home: LoginScreen(),
     );
   }
 }
