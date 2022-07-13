@@ -1,7 +1,7 @@
 import 'package:bel_cocuk_takip/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import '../models/user.dart' as model;
 import '../utils/global_variables.dart';
 
 class MainLayout extends StatefulWidget {
@@ -12,16 +12,16 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  int _page=0;
+  int _page = 0;
   late PageController pageController;
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     pageController = PageController();
   }
-  
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -29,16 +29,16 @@ class _MainLayoutState extends State<MainLayout> {
     pageController.dispose();
   }
 
-  void navigationTapped(int page){
+  void navigationTapped(int page) {
     pageController.jumpToPage(page);
   }
 
-  void onPageChanged(int page){
+  void onPageChanged(int page) {
     setState(() {
-      _page=page;
+      _page = page;
     });
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +52,24 @@ class _MainLayoutState extends State<MainLayout> {
         backgroundColor: secondaryColor,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: _page == 0 ? orangeColor : primaryColor,), label: '', backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.history, color: _page == 1 ? orangeColor : primaryColor,),
+              icon: Icon(
+                Icons.home,
+                color: _page == 0 ? orangeColor : primaryColor,
+              ),
               label: '',
               backgroundColor: primaryColor),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: _page == 2 ? orangeColor : primaryColor,),
+              icon: Icon(
+                Icons.history,
+                color: _page == 1 ? orangeColor : primaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
+                color: _page == 2 ? orangeColor : primaryColor,
+              ),
               label: '',
               backgroundColor: primaryColor),
         ],

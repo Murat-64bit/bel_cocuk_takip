@@ -6,7 +6,6 @@ class User {
   final String email;
   final String parentPhone;
   final int point;
-  final List activitys;
 
   const User({
     required this.uid,
@@ -14,7 +13,6 @@ class User {
     required this.email,
     required this.parentPhone,
     required this.point,
-    required this.activitys,
   });
 
   Map<String, dynamic> toJson() => {
@@ -23,7 +21,6 @@ class User {
         "email": email,
         "parentPhone": parentPhone,
         "point": point,
-        "activitys": activitys,
       };
 
   static User fromSnap(DocumentSnapshot snap) {
@@ -35,7 +32,6 @@ class User {
       email: snapshot["email"],
       parentPhone: snapshot["parentPhone"],
       point: snapshot["point"],
-      activitys: snapshot["activitys"],
     );
   }
 }

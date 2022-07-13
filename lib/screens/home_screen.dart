@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/utils.dart';
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String uid;
+
+  const HomeScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => HomeScreenState();
@@ -11,13 +16,38 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   bool activity = false;
+  int point =0;
+  var userData = {};
 
+  getData() async {
+  
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .get();
+      point = userSnap.data()!['point'];
+    
+      userData = userSnap.data()!;
+      setState(() {});
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
   String? qrResult;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Ana Sayfa"),
+          title: Text("${userData['name']} - ${userData['point']}P"),
         ),
         body: Column(
           children: [
@@ -121,7 +151,9 @@ class HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("İşlem No: ${qrResult!}"),
-                      const SizedBox(height: 5,),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.red,

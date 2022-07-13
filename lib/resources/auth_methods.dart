@@ -39,7 +39,6 @@ class AuthMethods {
           email: email,
           parentPhone: parentPhone,
           point: 0,
-          activitys: [],
         );
 
         await _firestore.collection('users').doc(cred.user!.uid).set(
