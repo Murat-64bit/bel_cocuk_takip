@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
 import 'package:flutter/material.dart';
-
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../utils/utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,19 +15,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer();
+  final _isHours = true;
   bool activity = false;
-  int point =0;
+  int point = 0;
   var userData = {};
 
   getData() async {
-  
     try {
       var userSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(widget.uid)
           .get();
       point = userSnap.data()!['point'];
-    
+
       userData = userSnap.data()!;
       setState(() {});
     } catch (e) {
@@ -35,13 +36,20 @@ class HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _stopWatchTimer.dispose();
+  }
+
   String? qrResult;
   @override
   Widget build(BuildContext context) {
@@ -65,6 +73,8 @@ class HomeScreenState extends State<HomeScreen> {
                             print(qrResult);
                             if (qrResult != "-1") {
                               activity = true;
+                              _stopWatchTimer.onExecute
+                                  .add(StopWatchExecute.start);
                             }
                           });
                         },
@@ -122,59 +132,64 @@ class HomeScreenState extends State<HomeScreen> {
 
   Container activityStatus(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 35, right: 35, top: 20),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-      ),
-      height: MediaQuery.of(context).size.height * 0.30,
-      width: MediaQuery.of(context).size.width * 0.97,
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
+        margin: const EdgeInsets.only(left: 35, right: 35, top: 20),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+        ),
+        height: MediaQuery.of(context).size.height * 0.30,
+        width: MediaQuery.of(context).size.width * 0.97,
+        child: Column(
+          children: [
+            Stack(alignment: Alignment.center, children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 50),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  height: MediaQuery.of(context).size.height * 0.10,
-                  width: MediaQuery.of(context).size.width * 0.97,
-                  child: const Center(child: Text("00:00:00")),
-                ),
+                    margin: const EdgeInsets.only(bottom: 30),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.10,
+                    width: MediaQuery.of(context).size.width * 0.97,
+                    child: StreamBuilder<int>(
+                      stream: _stopWatchTimer.rawTime,
+                      initialData: _stopWatchTimer.rawTime.value,
+                      builder: (context, snapshot) {
+                        final value = snapshot.data;
+                        final displayTime = StopWatchTimer.getDisplayTime(
+                            value!,
+                            hours: _isHours,milliSecond: false);
+                        return Center(child: Text(displayTime));
+                      },
+                    )),
               ),
-              Container(
-                  margin: const EdgeInsets.only(top: 140),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("İşlem No: ${qrResult!}"),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0)),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              if (qrResult != "-1") {
-                                activity = false;
-                              }
-                            });
-                          },
-                          child: const Text("Çıkış Yap!")),
-                    ],
-                  )),
-            ],
-          ),
-        ],
-      ),
-    );
+            ]),
+            Container(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("İşlem No: ${qrResult!}"),
+                const SizedBox(
+                  height: 5,
+                ),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0)),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (qrResult != "-1") {
+                          activity = false;
+                          _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+                        }
+                      });
+                    },
+                    child: const Text("Çıkış Yap!")),
+              ],
+            )),
+          ],
+        ));
   }
 }
