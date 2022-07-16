@@ -62,7 +62,7 @@ class _HistoryCardItemState extends State<HistoryCardItem> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 10),
+                      margin: const EdgeInsets.only(left: 10,),
                       child: Row(
                         children: [
                           Container(

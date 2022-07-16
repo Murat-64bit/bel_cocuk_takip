@@ -35,4 +35,22 @@ class FirestoreMethods {
     }
     return res;
   }
+
+  Future<String> addPoint(
+      int cPoint,
+      userId) async {
+    String res = 'some error occurred';
+
+    try {
+      
+      _firestore
+          .collection("users")
+          .doc(userId)
+          .update({'point':cPoint});
+      res = "succes";
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 }

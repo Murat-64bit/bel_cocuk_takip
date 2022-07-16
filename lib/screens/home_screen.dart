@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bel_cocuk_takip/resources/firestore_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -24,6 +26,7 @@ class HomeScreenState extends State<HomeScreen> {
   String _checkHour = "";
   String _exitHour = "";
   String _dateTime = "";
+  Timer? timer;
   int point = 0;
   var userData = {};
 
@@ -61,7 +64,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("${userData['name']} - ${userData['point']}P"),
+          title: Text("${userData['name']} - ${point}P"),
         ),
         body: Column(
           children: [
@@ -79,13 +82,20 @@ class HomeScreenState extends State<HomeScreen> {
                             print(qrResult);
                             if (qrResult != "-1") {
                               activity = true;
+
                               var now = new DateTime.now();
 
                               _stopWatchTimer.onExecute
                                   .add(StopWatchExecute.start);
-                              _checkHour =
-                                  DateFormat('Hm').format(now); 
+                              _checkHour = DateFormat('Hm').format(now);
                               _dateTime = DateFormat('dd/MM/yyyy').format(now);
+
+                              timer = Timer.periodic(
+                                  Duration(seconds: 30),
+                                  (Timer t) => {
+                                        FirestoreMethods()
+                                            .addPoint(point++, widget.uid)
+                                      });
                             }
                           });
                         },
@@ -104,8 +114,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: ListView(
-                children: const [
-                ],
+                children: const [],
               ),
             )
           ],
@@ -180,29 +189,37 @@ class HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0)),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        if (qrResult != "-1") {
-                          activity = false;
-                          var now = new DateTime.now();
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0)),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            if (qrResult != "-1") {
+                              activity = false;
+                              var now = new DateTime.now();
 
-                          _exitHour =
-                              DateFormat('Hm').format(now); // 28/03/2020
+                              _exitHour =
+                                  DateFormat('Hm').format(now); // 28/03/2020
 
-                          FirestoreMethods().addHistory(qrResult.toString(),
-                              _checkHour, _exitHour, _dateTime, widget.uid);
-                          _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
-                        }
-                      });
-                    },
-                    child: const Text("Çıkış Yap!")),
+                              FirestoreMethods().addHistory(qrResult.toString(),
+                                  _checkHour, _exitHour, _dateTime, widget.uid);
+                              _stopWatchTimer.onExecute
+                                  .add(StopWatchExecute.reset);
+                              timer!.cancel();
+                            }
+                          });
+                        },
+                        child: const Text("Çıkış Yap!")),
+                  ],
+                )
               ],
             )),
           ],
