@@ -1,7 +1,9 @@
+import 'package:bel_cocuk_takip/resources/firestore_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../utils/utils.dart';
 
@@ -18,6 +20,10 @@ class HomeScreenState extends State<HomeScreen> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   final _isHours = true;
   bool activity = false;
+  var now = new DateTime.now();
+  String _checkHour = "";
+  String _exitHour = "";
+  String _dateTime = "";
   int point = 0;
   var userData = {};
 
@@ -73,8 +79,13 @@ class HomeScreenState extends State<HomeScreen> {
                             print(qrResult);
                             if (qrResult != "-1") {
                               activity = true;
+                              var now = new DateTime.now();
+
                               _stopWatchTimer.onExecute
                                   .add(StopWatchExecute.start);
+                              _checkHour =
+                                  DateFormat('Hm').format(now); // 28/03/2020
+                              _dateTime = DateFormat('yMd').format(now);
                             }
                           });
                         },
@@ -157,7 +168,8 @@ class HomeScreenState extends State<HomeScreen> {
                         final value = snapshot.data;
                         final displayTime = StopWatchTimer.getDisplayTime(
                             value!,
-                            hours: _isHours,milliSecond: false);
+                            hours: _isHours,
+                            milliSecond: false);
                         return Center(child: Text(displayTime));
                       },
                     )),
@@ -182,6 +194,13 @@ class HomeScreenState extends State<HomeScreen> {
                       setState(() {
                         if (qrResult != "-1") {
                           activity = false;
+                          var now = new DateTime.now();
+
+                          _exitHour =
+                              DateFormat('Hm').format(now); // 28/03/2020
+
+                          FirestoreMethods().addHistory(qrResult.toString(),
+                              _checkHour, _exitHour, _dateTime, widget.uid);
                           _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
                         }
                       });

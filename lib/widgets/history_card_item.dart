@@ -23,6 +23,19 @@ class HistoryCardItem extends StatelessWidget {
                           Container(
                             height: 40,
                             width: 10,
+                            color: Colors.purple,
+                          ),
+                          const Text(" 16/07/2022"),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 10,
                             color: Colors.green,
                           ),
                           const Text(" 14:35"),
@@ -30,7 +43,7 @@ class HistoryCardItem extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 15),
+                      margin: const EdgeInsets.only(left: 10),
                       child: Row(
                         children: [
                           Container(
@@ -43,20 +56,7 @@ class HistoryCardItem extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 10,
-                            color: Colors.purple,
-                          ),
-                          const Text(" 00:15"),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 15),
+                      margin: const EdgeInsets.only(left: 10),
                       child: Row(
                         children: [
                           Container(
