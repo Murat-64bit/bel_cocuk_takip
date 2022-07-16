@@ -8,6 +8,6 @@ import 'package:flutter/material.dart';
 
 final homeScreenItems = [
   HomeScreen(uid: FirebaseAuth.instance.currentUser!.uid),
-  HistoryScreen(),
+  HistoryScreen(uid: FirebaseAuth.instance.currentUser!.uid),
   AccInfoScreen(),
 ];

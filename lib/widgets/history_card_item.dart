@@ -1,9 +1,15 @@
 import 'package:bel_cocuk_takip/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-class HistoryCardItem extends StatelessWidget {
-  const HistoryCardItem({Key? key}) : super(key: key);
+class HistoryCardItem extends StatefulWidget {
+  final snap;
+  const HistoryCardItem({Key? key, required this.snap}) : super(key: key);
 
+  @override
+  State<HistoryCardItem> createState() => _HistoryCardItemState();
+}
+
+class _HistoryCardItemState extends State<HistoryCardItem> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -25,7 +31,7 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.purple,
                           ),
-                          const Text(" 16/07/2022"),
+                          Text(" ${widget.snap['datetime']}"),
                         ],
                       ),
                     ),
@@ -38,7 +44,7 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.green,
                           ),
-                          const Text(" 14:35"),
+                          Text(" ${widget.snap['checkHour']}"),
                         ],
                       ),
                     ),
@@ -51,7 +57,7 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.red,
                           ),
-                          const Text(" 14:45"),
+                          Text(" ${widget.snap['exitHour']}"),
                         ],
                       ),
                     ),
@@ -64,7 +70,7 @@ class HistoryCardItem extends StatelessWidget {
                             width: 10,
                             color: Colors.orange,
                           ),
-                          const Text(" 7834587"),
+                          Text(" ${widget.snap['transId']}"),
                         ],
                       ),
                     ),

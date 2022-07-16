@@ -84,8 +84,8 @@ class HomeScreenState extends State<HomeScreen> {
                               _stopWatchTimer.onExecute
                                   .add(StopWatchExecute.start);
                               _checkHour =
-                                  DateFormat('Hm').format(now); // 28/03/2020
-                              _dateTime = DateFormat('yMd').format(now);
+                                  DateFormat('Hm').format(now); 
+                              _dateTime = DateFormat('dd/MM/yyyy').format(now);
                             }
                           });
                         },
@@ -105,9 +105,6 @@ class HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: ListView(
                 children: const [
-                  HistoryCardItem(),
-                  HistoryCardItem(),
-                  HistoryCardItem(),
                 ],
               ),
             )
