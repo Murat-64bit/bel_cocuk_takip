@@ -1,15 +1,13 @@
+import 'package:bel_cocuk_takip/resources/auth_methods.dart';
+import 'package:bel_cocuk_takip/screens/acc_management_screen.dart';
+import 'package:bel_cocuk_takip/utils/global_variables.dart';
 import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
 
-class AccInfoScreen extends StatefulWidget {
+class AccInfoScreen extends StatelessWidget {
   AccInfoScreen({Key? key}) : super(key: key);
 
-  @override
-  State<AccInfoScreen> createState() => AccInfoScreenState();
-}
-
-class AccInfoScreenState extends State<AccInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,40 +18,45 @@ class AccInfoScreenState extends State<AccInfoScreen> {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              // 
-              // const TextFieldInput(
-              //     name: "E-Posta Adresiniz",
-              //     icon: Icon(Icons.mail),
-              //     textInputType: TextInputType.emailAddress,
-              //     IsPass: false),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // const TextFieldInput(
-              //     name: "Veli Telefon Numarası",
-              //     icon: Icon(Icons.phone),
-              //     textInputType: TextInputType.phone,
-              //     IsPass: false),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // const TextFieldInput(
-              //     name: "Şifreniz",
-              //     icon: const Icon(Icons.lock),
-              //     textInputType: TextInputType.visiblePassword,
-              //     IsPass: true),
-              const SizedBox(
-                height: 10,
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.mail),
+                  title: Text('E-Posta Yönetimi'),
+                  trailing: Icon(Icons.arrow_right_rounded),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => AccManagementScreen(
+                              selectedManage: ChooseManage.Mail,
+                            )));
+                  },
+                ),
               ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0)),
-                  ),
-                  onPressed: () {},
-                  child: const Text("Kaydet")),
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.phone),
+                  title: Text('Telefon Yönetimi'),
+                  trailing: Icon(Icons.arrow_right_rounded),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => AccManagementScreen(
+                              selectedManage: ChooseManage.ParentPhone,
+                            )));
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.password),
+                  title: Text('Şifre Yönetimi'),
+                  trailing: Icon(Icons.arrow_right_rounded),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => AccManagementScreen(
+                              selectedManage: ChooseManage.Password,
+                            )));
+                  },
+                ),
+              ),
             ],
           ),
         ));

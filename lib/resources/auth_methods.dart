@@ -46,12 +46,10 @@ class AuthMethods {
             );
         res = 'succes';
       }
-    } 
-    catch (err) {
+    } catch (err) {
       res = err.toString();
     }
     return res;
-    
   }
 
   //logging in user
@@ -77,5 +75,15 @@ class AuthMethods {
 
   Future<void> signOut() async {
     await _auth.signOut();
+  }
+
+  Future<void> updatePassword(String password) async {
+    var firebaseUser = await _auth.currentUser;
+    firebaseUser?.updatePassword(password);
+  }
+
+  Future<void> updateMail(String email) async {
+    var firebaseUser = await _auth.currentUser;
+    firebaseUser?.updateEmail(email);
   }
 }

@@ -4,10 +4,10 @@ import 'package:bel_cocuk_takip/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
-
 final homeScreenItems = [
   HomeScreen(uid: FirebaseAuth.instance.currentUser!.uid),
   HistoryScreen(uid: FirebaseAuth.instance.currentUser!.uid),
   AccInfoScreen(),
 ];
+
+enum ChooseManage { Mail, Password, ParentPhone }
