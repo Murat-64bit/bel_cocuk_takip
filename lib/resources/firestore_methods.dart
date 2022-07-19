@@ -55,4 +55,16 @@ class FirestoreMethods {
     }
     return res;
   }
+
+  Future<String> updatePhone(String phone, userId) async {
+    String res = 'some error occurred';
+
+    try {
+      _firestore.collection("users").doc(userId).update({'parentPhone': phone});
+      res = "succes";
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 }

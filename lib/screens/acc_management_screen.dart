@@ -105,7 +105,7 @@ class AccManagementScreenState extends State<AccManagementScreen> {
         ModalRoute.withName('/'),
       );
     } else if (widget.selectedManage == ChooseManage.ParentPhone) {
-      return parentPhoneColumn();
+      FirestoreMethods().updatePhone(_parentPhoneController.text,widget.uid);
     } else if (widget.selectedManage == ChooseManage.Password) {
       AuthMethods().updatePassword(_passwordController.text);
       Navigator.pushAndRemoveUntil<void>(
