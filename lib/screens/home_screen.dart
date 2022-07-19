@@ -128,7 +128,7 @@ class HomeScreenState extends State<HomeScreen> {
 
                       return ListView.builder(
                           shrinkWrap: true,
-                          itemCount: min(3, 2),
+                          itemCount: min(3, 0),
                           itemBuilder: (context, index) {
                             DocumentSnapshot snap =
                                 (snapshot.data! as dynamic).docs[index];
