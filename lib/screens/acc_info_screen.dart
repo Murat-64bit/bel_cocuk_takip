@@ -6,7 +6,8 @@ import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
 
 class AccInfoScreen extends StatelessWidget {
-  AccInfoScreen({Key? key}) : super(key: key);
+  final uid;
+  AccInfoScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class AccInfoScreen extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (ctx) => AccManagementScreen(
                               selectedManage: ChooseManage.Mail,
+                              uid: uid,
                             )));
                   },
                 ),
@@ -40,6 +42,7 @@ class AccInfoScreen extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (ctx) => AccManagementScreen(
                               selectedManage: ChooseManage.ParentPhone,
+                              uid: uid,
                             )));
                   },
                 ),
@@ -53,6 +56,7 @@ class AccInfoScreen extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (ctx) => AccManagementScreen(
                               selectedManage: ChooseManage.Password,
+                              uid: uid,
                             )));
                   },
                 ),

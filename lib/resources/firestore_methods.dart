@@ -6,12 +6,8 @@ import 'package:uuid/uuid.dart';
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<String> addHistory(
-      String transId,
-      String checkHour,
-      String exitHour,
-      String datetime,
-      userId) async {
+  Future<String> addHistory(String transId, String checkHour, String exitHour,
+      String datetime, userId) async {
     String res = 'some error occurred';
 
     try {
@@ -36,17 +32,23 @@ class FirestoreMethods {
     return res;
   }
 
-  Future<String> addPoint(
-      int cPoint,
-      userId) async {
+  Future<String> addPoint(int cPoint, userId) async {
     String res = 'some error occurred';
 
     try {
-      
-      _firestore
-          .collection("users")
-          .doc(userId)
-          .update({'point':cPoint});
+      _firestore.collection("users").doc(userId).update({'point': cPoint});
+      res = "succes";
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> updateMail(String email, userId) async {
+    String res = 'some error occurred';
+
+    try {
+      _firestore.collection("users").doc(userId).update({'email': email});
       res = "succes";
     } catch (err) {
       res = err.toString();

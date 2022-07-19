@@ -3,11 +3,17 @@ import 'package:bel_cocuk_takip/screens/login_screen.dart';
 import 'package:bel_cocuk_takip/utils/global_variables.dart';
 import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../resources/firestore_methods.dart';
+import '../utils/utils.dart';
 
 class AccManagementScreen extends StatefulWidget {
   ChooseManage selectedManage;
-  AccManagementScreen({Key? key, required this.selectedManage})
+  final uid;
+  AccManagementScreen(
+      {Key? key, required this.selectedManage, required this.uid})
       : super(key: key);
 
   @override
@@ -18,6 +24,28 @@ class AccManagementScreenState extends State<AccManagementScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _parentPhoneController = TextEditingController();
+  var userData = {};
+
+  getData() async {
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .get();
+
+      userData = userSnap.data()!;
+      setState(() {});
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   void dispose() {
@@ -49,7 +77,7 @@ class AccManagementScreenState extends State<AccManagementScreen> {
                       borderRadius: BorderRadius.circular(0)),
                 ),
                 onPressed: chooseButtonAction,
-                child: const Text("Değiştir!")), 
+                child: const Text("Değiştir!")),
           ],
         ),
       ),
@@ -69,6 +97,7 @@ class AccManagementScreenState extends State<AccManagementScreen> {
   chooseButtonAction() {
     if (widget.selectedManage == ChooseManage.Mail) {
       AuthMethods().updateMail(_emailController.text);
+      FirestoreMethods().updateMail(_emailController.text, widget.uid);
       Navigator.pushAndRemoveUntil<void>(
         context,
         MaterialPageRoute<void>(
@@ -100,7 +129,7 @@ class AccManagementScreenState extends State<AccManagementScreen> {
           height: 10,
         ),
         TextFieldInput(
-            name: "E-Posta Adresiniz",
+            name: "${userData['email']}",
             icon: Icon(Icons.mail),
             textInputType: TextInputType.emailAddress,
             IsPass: false,
@@ -121,7 +150,7 @@ class AccManagementScreenState extends State<AccManagementScreen> {
           height: 10,
         ),
         TextFieldInput(
-            name: "Veli Telefon Numarası",
+            name: "${userData['parentPhone']}",
             icon: Icon(Icons.phone),
             textInputType: TextInputType.phone,
             IsPass: false,

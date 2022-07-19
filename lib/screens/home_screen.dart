@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bel_cocuk_takip/resources/firestore_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -109,7 +110,34 @@ class HomeScreenState extends State<HomeScreen> {
                   width: MediaQuery.of(context).size.width * 0.97,
                   child: Image.asset("assets/images/gebze_yatay_logo.png"),
                 ),
-                const Divider()
+                const Divider(),
+                SingleChildScrollView(
+                  child: FutureBuilder(
+                    future: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(widget.uid)
+                        .collection('history')
+                        .orderBy('datetime', descending: true)
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: min(3, 2),
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot snap =
+                                (snapshot.data! as dynamic).docs[index];
+
+                            return HistoryCardItem(snap: snap);
+                          });
+                    },
+                  ),
+                )
               ],
             ),
             Expanded(
