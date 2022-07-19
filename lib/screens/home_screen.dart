@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:bel_cocuk_takip/resources/firestore_methods.dart';
+import 'package:bel_cocuk_takip/screens/qr_code_generator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
@@ -25,6 +26,7 @@ class HomeScreenState extends State<HomeScreen> {
   bool activity = false;
   var now = new DateTime.now();
   String _checkHour = "";
+  String _nowQr = "";
   String _exitHour = "";
   String _dateTime = "";
   Timer? timer;
@@ -51,6 +53,17 @@ class HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     getData();
+    timerQr();
+  }
+
+  void timerQr() {
+    now = new DateTime.now();
+    _nowQr = DateFormat('hhmm').format(now);
+    timer = Timer.periodic(Duration(seconds: 60), (Timer t) {
+      now = new DateTime.now();
+      _nowQr = DateFormat('hhmm').format(now);
+      setState(() {});
+    });
   }
 
   @override
@@ -58,6 +71,7 @@ class HomeScreenState extends State<HomeScreen> {
     // TODO: implement dispose
     super.dispose();
     _stopWatchTimer.dispose();
+    timer?.cancel();
   }
 
   String? qrResult;
@@ -81,7 +95,7 @@ class HomeScreenState extends State<HomeScreen> {
                           setState(() {
                             qrResult = barcodeScanRes;
                             print(qrResult);
-                            if (qrResult != "-1") {
+                            if (qrResult != "-1" && qrResult == _nowQr) {
                               activity = true;
 
                               var now = new DateTime.now();

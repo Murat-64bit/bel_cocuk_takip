@@ -56,75 +56,81 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: secondaryColor,
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          width: double.infinity,
-          child: Column(
+      body: ListView(
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: 230,
-                child: const Image(
-                  image: AssetImage("assets/images/gebze_logo1.png"),
-                ),
-              ),
-              const Center(child: Text("Lütfen kayıt bilgilerinizi giriniz.")),
-              const Divider(),
-              Column(
-                children: [
-                  TextFieldInput(
-                    name: "Email Adresiniz",
-                    icon: const Icon(Icons.email),
-                    textInputType: TextInputType.emailAddress,
-                    IsPass: false,
-                    textEditingController: _emailController,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFieldInput(
-                    name: "Şifreniz",
-                    icon: const Icon(Icons.lock),
-                    textInputType: TextInputType.visiblePassword,
-                    IsPass: true,
-                    textEditingController: _passwordController,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Center(
-                        child: InkWell(
-                            onTap: navigateToSignup,
-                            child: const Text("Hesabınız yok mu?"))),
-                    const SizedBox(
-                      height: 10,
+                    Container(
+                      height: 230,
+                      child: const Image(
+                        image: AssetImage("assets/images/gebze_logo1.png"),
+                      ),
                     ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0)),
+                    const Center(child: Text("Lütfen kayıt bilgilerinizi giriniz.")),
+                    const Divider(),
+                    Column(
+                      children: [
+                        TextFieldInput(
+                          name: "Email Adresiniz",
+                          icon: const Icon(Icons.email),
+                          textInputType: TextInputType.emailAddress,
+                          IsPass: false,
+                          textEditingController: _emailController,
                         ),
-                        onPressed: loginUser,
-                        child: const Text("Giriş Yap!")),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFieldInput(
+                          name: "Şifreniz",
+                          icon: const Icon(Icons.lock),
+                          textInputType: TextInputType.visiblePassword,
+                          IsPass: true,
+                          textEditingController: _passwordController,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Center(
+                              child: InkWell(
+                                  onTap: navigateToSignup,
+                                  child: const Text("Hesabınız yok mu?"))),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0)),
+                              ),
+                              onPressed: loginUser,
+                              child: const Text("Giriş Yap!")),
+                        ],
+                      ),
+                    
                   ],
                 ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
