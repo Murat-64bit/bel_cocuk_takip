@@ -57,7 +57,7 @@ class _QrCodeGeneratorState extends State<QrCodeGenerator> {
             ),
             Container(
               margin: EdgeInsets.all(20),
-              child: Text(_qrCodeString),
+              child: Text("Lütfen QR Kodunuzu Okutunuz."),
             ),
           ],
         ),
