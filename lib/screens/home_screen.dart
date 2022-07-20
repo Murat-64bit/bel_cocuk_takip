@@ -59,7 +59,7 @@ class HomeScreenState extends State<HomeScreen> {
   void timerQr() {
     now = new DateTime.now();
     _nowQr = DateFormat('hhmm').format(now);
-    timer = Timer.periodic(Duration(seconds: 60), (Timer t) {
+    timer = Timer.periodic(Duration(seconds: 25), (Timer t) {
       now = new DateTime.now();
       _nowQr = DateFormat('hhmm').format(now);
       setState(() {});
@@ -139,16 +139,20 @@ class HomeScreenState extends State<HomeScreen> {
                           child: CircularProgressIndicator(),
                         );
                       }
-
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: min(3, 0),
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot snap =
-                                (snapshot.data! as dynamic).docs[index];
-
-                            return HistoryCardItem(snap: snap);
-                          });
+                      int a = (snapshot.data as dynamic).docs.length;
+                      return a <= 3
+                          ? Padding(
+                              padding: EdgeInsets.only(top: 50,left: 30,right: 30),
+                              child: Text(
+                                  "Geçmişinizin gözükmesi için ${3-a} işlem daha yapmanız gereklidir."))
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 3,
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot snap =
+                                    (snapshot.data! as dynamic).docs[index];
+                                return HistoryCardItem(snap: snap);
+                              });
                     },
                   ),
                 )

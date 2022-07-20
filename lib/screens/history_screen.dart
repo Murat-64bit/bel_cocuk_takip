@@ -22,7 +22,7 @@ class HistoryScreenState extends State<HistoryScreen> {
               .collection('users')
               .doc(widget.uid)
               .collection('history')
-              .orderBy('datetime',descending: true)
+              .orderBy('datetime', descending: true)
               .get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -30,17 +30,18 @@ class HistoryScreenState extends State<HistoryScreen> {
                 child: CircularProgressIndicator(),
               );
             }
+            int a = (snapshot.data as dynamic).docs.length;
+            return a == 0
+                ? Center(child: Text("Kayıtlı hiç bir işlem yok."))
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: (snapshot.data! as dynamic).docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot snap =
+                          (snapshot.data! as dynamic).docs[index];
 
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: (snapshot.data! as dynamic).docs.length,
-          
-                itemBuilder: (context, index) {
-                  DocumentSnapshot snap =
-                      (snapshot.data! as dynamic).docs[index];
-
-                  return HistoryCardItem(snap: snap);
-                });
+                      return HistoryCardItem(snap: snap);
+                    });
           },
         ));
   }

@@ -1,4 +1,7 @@
+import 'package:bel_cocuk_takip/screens/qr_code_generator.dart';
 import 'package:bel_cocuk_takip/utils/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart' as model;
@@ -14,11 +17,26 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   int _page = 0;
   late PageController pageController;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  bool isAdmin = false;
+
+  getData() async {
+    try {
+      var userSnap =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      isAdmin = userSnap.data()!['admin'];
+
+      setState(() {});
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
     pageController = PageController();
   }
 
@@ -42,13 +60,13 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
+      body: isAdmin ? QrCodeGenerator() : PageView(
         children: homeScreenItems,
         physics: NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
       ),
-      bottomNavigationBar: CupertinoTabBar(
+      bottomNavigationBar: isAdmin ? null : CupertinoTabBar(
         backgroundColor: secondaryColor,
         items: [
           BottomNavigationBarItem(
