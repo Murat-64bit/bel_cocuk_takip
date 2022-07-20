@@ -28,7 +28,7 @@ class _QrCodeGeneratorState extends State<QrCodeGenerator> {
   void timerQr() {
     now = new DateTime.now();
       _qrCodeString = DateFormat('hhmm').format(now);
-    timer = Timer.periodic(Duration(seconds: 25), (Timer t) {
+    timer = Timer.periodic(Duration(seconds: 20), (Timer t) {
       now = new DateTime.now();
       _qrCodeString = DateFormat('hhmm').format(now);
       setState(() {});

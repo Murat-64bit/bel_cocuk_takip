@@ -59,7 +59,7 @@ class HomeScreenState extends State<HomeScreen> {
   void timerQr() {
     now = new DateTime.now();
     _nowQr = DateFormat('hhmm').format(now);
-    timer = Timer.periodic(Duration(seconds: 25), (Timer t) {
+    timer = Timer.periodic(Duration(seconds: 20), (Timer t) {
       now = new DateTime.now();
       _nowQr = DateFormat('hhmm').format(now);
       setState(() {});
@@ -106,7 +106,7 @@ class HomeScreenState extends State<HomeScreen> {
                               _dateTime = DateFormat('dd/MM/yyyy').format(now);
 
                               timer = Timer.periodic(
-                                  Duration(seconds: 30),
+                                  Duration(seconds: 18),
                                   (Timer t) => {
                                         FirestoreMethods()
                                             .addPoint(point++, widget.uid)
@@ -140,7 +140,7 @@ class HomeScreenState extends State<HomeScreen> {
                         );
                       }
                       int a = (snapshot.data as dynamic).docs.length;
-                      return a <= 3
+                      return a < 3
                           ? Padding(
                               padding: EdgeInsets.only(top: 50,left: 30,right: 30),
                               child: Text(
