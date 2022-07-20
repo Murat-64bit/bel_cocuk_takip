@@ -81,90 +81,102 @@ class HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: Text("${userData['name']} - ${point}P"),
         ),
-        body: Column(
-          children: [
-            Column(
-              children: [
-                activity
-                    ? activityStatus(context)
-                    : InkWell(
-                        onTap: () async {
-                          String barcodeScanRes =
-                              await FlutterBarcodeScanner.scanBarcode(
-                                  '#ff6666', 'İptal', true, ScanMode.BARCODE);
-                          setState(() {
-                            qrResult = barcodeScanRes;
-                            print(qrResult);
-                            if (qrResult != "-1" && qrResult == _nowQr) {
-                              activity = true;
-
-                              var now = new DateTime.now();
-
-                              _stopWatchTimer.onExecute
-                                  .add(StopWatchExecute.start);
-                              _checkHour = DateFormat('Hm').format(now);
-                              _dateTime = DateFormat('dd/MM/yyyy').format(now);
-
-                              timer = Timer.periodic(
-                                  Duration(seconds: 18),
-                                  (Timer t) => {
-                                        FirestoreMethods()
-                                            .addPoint(point++, widget.uid)
-                                      });
-                            }
-                          });
-                        },
-                        child: activity
+        body: FutureBuilder(
+            future: getData(),
+            builder: (BuildContext context, AsyncSnapshot snap) {
+              if (snap.connectionState != ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else {
+                return Column(
+                  children: [
+                    Column(
+                      children: [
+                        activity
                             ? activityStatus(context)
-                            : waitActivity(context),
+                            : InkWell(
+                                onTap: () async {
+                                  String barcodeScanRes =
+                                      await FlutterBarcodeScanner.scanBarcode(
+                                          '#ff6666',
+                                          'İptal',
+                                          true,
+                                          ScanMode.BARCODE);
+                                  setState(() {
+                                    qrResult = barcodeScanRes;
+                                    print(qrResult);
+                                    if (qrResult != "-1" &&
+                                        qrResult == _nowQr) {
+                                      activity = true;
+
+                                      var now = new DateTime.now();
+
+                                      _stopWatchTimer.onExecute
+                                          .add(StopWatchExecute.start);
+                                      _checkHour = DateFormat('Hm').format(now);
+                                      _dateTime =
+                                          DateFormat('dd/MM/yyyy').format(now);
+
+                                      timer = Timer.periodic(
+                                          Duration(seconds: 18),
+                                          (Timer t) => {
+                                                FirestoreMethods().addPoint(
+                                                    point++, widget.uid)
+                                              });
+                                    }
+                                  });
+                                },
+                                child: activity
+                                    ? activityStatus(context)
+                                    : waitActivity(context),
+                              ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 35, right: 35, top: 10),
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.97,
+                          child:
+                              Image.asset("assets/images/gebze_yatay_logo.png"),
+                        ),
+                        const Divider(),
+                        SingleChildScrollView(
+                          child: FutureBuilder(
+                            future: FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid)
+                                .collection('history')
+                                .orderBy('datetime', descending: true)
+                                .get(),
+                            builder: (context, snapshot) {
+                              int a = (snapshot.data as dynamic).docs.length;
+                              return a < 3
+                                  ? Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 50, left: 30, right: 30),
+                                      child: Text(
+                                          "Geçmişinizin gözükmesi için ${3 - a} işlem daha yapmanız gereklidir."))
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: 3,
+                                      itemBuilder: (context, index) {
+                                        DocumentSnapshot snap =
+                                            (snapshot.data! as dynamic)
+                                                .docs[index];
+                                        return HistoryCardItem(snap: snap);
+                                      });
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    Expanded(
+                      child: ListView(
+                        children: const [],
                       ),
-                Container(
-                  margin: const EdgeInsets.only(left: 35, right: 35, top: 10),
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.97,
-                  child: Image.asset("assets/images/gebze_yatay_logo.png"),
-                ),
-                const Divider(),
-                SingleChildScrollView(
-                  child: FutureBuilder(
-                    future: FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(widget.uid)
-                        .collection('history')
-                        .orderBy('datetime', descending: true)
-                        .get(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      int a = (snapshot.data as dynamic).docs.length;
-                      return a < 3
-                          ? Padding(
-                              padding: EdgeInsets.only(top: 50,left: 30,right: 30),
-                              child: Text(
-                                  "Geçmişinizin gözükmesi için ${3-a} işlem daha yapmanız gereklidir."))
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: 3,
-                              itemBuilder: (context, index) {
-                                DocumentSnapshot snap =
-                                    (snapshot.data! as dynamic).docs[index];
-                                return HistoryCardItem(snap: snap);
-                              });
-                    },
-                  ),
-                )
-              ],
-            ),
-            Expanded(
-              child: ListView(
-                children: const [],
-              ),
-            )
-          ],
-        ));
+                    )
+                  ],
+                );
+              }
+            }));
   }
 
   Container waitActivity(BuildContext context) {
