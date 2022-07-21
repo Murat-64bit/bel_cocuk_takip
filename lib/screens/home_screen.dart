@@ -117,7 +117,7 @@ class HomeScreenState extends State<HomeScreen> {
                                           DateFormat('dd/MM/yyyy').format(now);
 
                                       timer = Timer.periodic(
-                                          Duration(seconds: 18),
+                                          Duration(seconds: 21),
                                           (Timer t) => {
                                                 FirestoreMethods().addPoint(
                                                     point++, widget.uid)
