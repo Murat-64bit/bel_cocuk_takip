@@ -47,26 +47,23 @@ class _MainLayoutState extends State<MainLayout> {
     pageController.dispose();
   }
 
-  void navigationTapped(int page) {
-    pageController.jumpToPage(page);
-  }
 
   void onPageChanged(int page) {
     setState(() {
       _page = page;
     });
   }
-
+// PageView(
+//         children: homeScreenItems,
+//         physics: NeverScrollableScrollPhysics(),
+//         controller: pageController,
+//         onPageChanged: onPageChanged,
+//       ),
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isAdmin ? QrCodeGenerator() : PageView(
-        children: homeScreenItems,
-        physics: NeverScrollableScrollPhysics(),
-        controller: pageController,
-        onPageChanged: onPageChanged,
-      ),
-      bottomNavigationBar: isAdmin ? null : CupertinoTabBar(
+      body: isAdmin ? QrCodeGenerator() : IndexedStack(index: _page,children:homeScreenItems,),
+      bottomNavigationBar: isAdmin ? null : BottomNavigationBar(
         backgroundColor: secondaryColor,
         items: [
           BottomNavigationBarItem(
@@ -74,24 +71,24 @@ class _MainLayoutState extends State<MainLayout> {
                 Icons.home,
                 color: _page == 0 ? orangeColor : primaryColor,
               ),
-              label: '',
+              label: 'Ana Sayfa',
               backgroundColor: primaryColor),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.history,
                 color: _page == 1 ? orangeColor : primaryColor,
               ),
-              label: '',
+              label: 'Geçmiş',
               backgroundColor: primaryColor),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.settings,
                 color: _page == 2 ? orangeColor : primaryColor,
               ),
-              label: '',
+              label: 'Hesabım',
               backgroundColor: primaryColor),
         ],
-        onTap: navigationTapped,
+        onTap: onPageChanged,
       ),
     );
   }

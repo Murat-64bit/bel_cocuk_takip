@@ -234,6 +234,7 @@ class HomeScreenState extends State<HomeScreen> {
                             value!,
                             hours: _isHours,
                             milliSecond: false);
+                        print(displayTime);
                         return Center(child: Text(displayTime));
                       },
                     )),
