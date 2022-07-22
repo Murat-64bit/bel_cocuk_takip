@@ -77,7 +77,8 @@ class AccInfoScreen extends StatelessWidget {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     prefs.remove('email');
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> LoginScreen()));
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (ctx) => LoginScreen()));
                   },
                 ),
               ),

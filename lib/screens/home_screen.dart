@@ -101,11 +101,11 @@ class HomeScreenState extends State<HomeScreen> {
                                           'İptal',
                                           true,
                                           ScanMode.BARCODE);
-                                  setState(() {
-                                    qrResult = barcodeScanRes;
-                                    print(qrResult);
-                                    if (qrResult != "-1" &&
-                                        qrResult == _nowQr) {
+
+                                  qrResult = barcodeScanRes;
+                                  print(qrResult);
+                                  if (qrResult != "-1" && qrResult == _nowQr) {
+                                    setState(() {
                                       activity = true;
 
                                       var now = new DateTime.now();
@@ -115,17 +115,18 @@ class HomeScreenState extends State<HomeScreen> {
                                       _checkHour = DateFormat('Hm').format(now);
                                       _dateTime =
                                           DateFormat('dd/MM/yyyy').format(now);
-
-                                      timer = Timer.periodic(
-                                          Duration(seconds: 21),
-                                          (Timer t) => {
-                                                FirestoreMethods().addPoint(
-                                                    point++, widget.uid)
-                                              });
-                                    }else{
-                                      showSnackBar("QR kodunuz hatalı lütfen daha sonra tekrar deneyin.", context);
-                                    }
-                                  });
+                                    });
+                                    timer = Timer.periodic(
+                                        Duration(seconds: 15),
+                                        (Timer t) => {
+                                              FirestoreMethods().addPoint(
+                                                  point ++, widget.uid)
+                                            });
+                                  } else {
+                                    showSnackBar(
+                                        "QR kodunuz hatalı lütfen daha sonra tekrar deneyin.",
+                                        context);
+                                  }
                                 },
                                 child: activity
                                     ? activityStatus(context)
@@ -236,7 +237,6 @@ class HomeScreenState extends State<HomeScreen> {
                             value!,
                             hours: _isHours,
                             milliSecond: false);
-                        print(displayTime);
                         return Center(child: Text(displayTime));
                       },
                     )),

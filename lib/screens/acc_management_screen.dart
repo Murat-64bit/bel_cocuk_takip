@@ -5,6 +5,7 @@ import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../resources/firestore_methods.dart';
 import '../utils/utils.dart';
@@ -94,10 +95,12 @@ class AccManagementScreenState extends State<AccManagementScreen> {
     }
   }
 
-  chooseButtonAction() {
+  chooseButtonAction() async{
     if (widget.selectedManage == ChooseManage.Mail) {
       AuthMethods().updateMail(_emailController.text);
       FirestoreMethods().updateMail(_emailController.text, widget.uid);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('email');
       Navigator.pushAndRemoveUntil<void>(
         context,
         MaterialPageRoute<void>(
@@ -108,6 +111,8 @@ class AccManagementScreenState extends State<AccManagementScreen> {
       FirestoreMethods().updatePhone(_parentPhoneController.text,widget.uid);
     } else if (widget.selectedManage == ChooseManage.Password) {
       AuthMethods().updatePassword(_passwordController.text);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('email');
       Navigator.pushAndRemoveUntil<void>(
         context,
         MaterialPageRoute<void>(
