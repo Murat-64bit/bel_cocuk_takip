@@ -3,6 +3,7 @@ import 'package:bel_cocuk_takip/screens/signup_screen.dart';
 import 'package:bel_cocuk_takip/utils/colors.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../resources/auth_methods.dart';
 import '../utils/utils.dart';
@@ -34,6 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (res != 'success') {
       showSnackBar(res, context);
     } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', _emailController.text);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: ((context) => MainLayout()),
@@ -43,8 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void navigateToSignup() {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: ((context) => const SignupScreen())));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: ((context) => const SignupScreen())));
   }
 
   @override
@@ -74,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         image: AssetImage("assets/images/gebze_logo1.png"),
                       ),
                     ),
-                    const Center(child: Text("Lütfen kayıt bilgilerinizi giriniz.")),
+                    const Center(
+                        child: Text("Lütfen kayıt bilgilerinizi giriniz.")),
                     const Divider(),
                     Column(
                       children: [
@@ -104,27 +108,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Center(
-                              child: InkWell(
-                                  onTap: navigateToSignup,
-                                  child: const Text("Hesabınız yok mu?"))),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.green,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0)),
-                              ),
-                              onPressed: loginUser,
-                              child: const Text("Giriş Yap!")),
-                        ],
-                      ),
-                    
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Center(
+                            child: InkWell(
+                                onTap: navigateToSignup,
+                                child: const Text("Hesabınız yok mu?"))),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.green,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0)),
+                            ),
+                            onPressed: loginUser,
+                            child: const Text("Giriş Yap!")),
+                      ],
+                    ),
                   ],
                 ),
               ),

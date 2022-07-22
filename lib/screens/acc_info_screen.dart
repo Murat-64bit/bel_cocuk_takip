@@ -4,6 +4,7 @@ import 'package:bel_cocuk_takip/utils/global_variables.dart';
 import 'package:bel_cocuk_takip/widgets/history_card_item.dart';
 import 'package:bel_cocuk_takip/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_screen.dart';
 
@@ -71,14 +72,12 @@ class AccInfoScreen extends StatelessWidget {
                   tileColor: Colors.red,
                   textColor: Colors.white,
                   iconColor: Colors.white,
-                  onTap: () {
+                  onTap: () async {
                     AuthMethods().signOut();
-                    Navigator.pushAndRemoveUntil<void>(
-                        context,
-                        MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const LoginScreen()),
-                        ModalRoute.withName('/'));
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('email');
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=> LoginScreen()));
                   },
                 ),
               ),

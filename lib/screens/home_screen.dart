@@ -122,6 +122,8 @@ class HomeScreenState extends State<HomeScreen> {
                                                 FirestoreMethods().addPoint(
                                                     point++, widget.uid)
                                               });
+                                    }else{
+                                      showSnackBar("QR kodunuz hatalı lütfen daha sonra tekrar deneyin.", context);
                                     }
                                   });
                                 },
